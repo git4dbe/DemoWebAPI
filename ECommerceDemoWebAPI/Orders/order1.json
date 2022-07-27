@@ -1,0 +1,28 @@
+{
+  "Id": "order1",
+  "Description": null,
+  "DeliveryDate": "2022-07-29T07:56:53.927Z",
+  "DeliveryAddress": "Kyiv, Khreshatik 1",
+  "ContactInfo": null,
+  "Status": "created",
+  "CreatedDate": "2022-07-27T10:59:19.2890766+03:00",
+  "CompletedDate": null,
+  "ShoppingCart": {
+    "Id": "sc1",
+    "ClientId": "client1",
+    "CreatedDate": "2022-07-27T10:56:17.4299781+03:00",
+    "Products": [
+      {
+        "Id": "product1",
+        "SerialNumber": "SN-000298393-0001",
+        "Name": "table white color",
+        "Description": "table for work",
+        "ProductType": "table",
+        "Manufacturer": "Ikea",
+        "ProductionDate": "2021-07-26T18:48:32.476Z",
+        "Price": 250.0,
+        "Currency": "USD"
+      }
+    ]
+  }
+}

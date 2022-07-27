@@ -1,0 +1,11 @@
+{
+  "Id": "product3",
+  "SerialNumber": "SN-000298393-0003",
+  "Name": "table white color",
+  "Description": "table for work",
+  "ProductType": "table",
+  "Manufacturer": "Ikea",
+  "ProductionDate": "2021-07-26T18:48:32.476Z",
+  "Price": 250.0,
+  "Currency": "USD"
+}

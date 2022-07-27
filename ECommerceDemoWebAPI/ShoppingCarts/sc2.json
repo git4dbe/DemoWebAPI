@@ -1,0 +1,18 @@
+{
+  "Id": "sc2",
+  "ClientId": "client2",
+  "CreatedDate": "2022-07-27T10:56:30.4664615+03:00",
+  "Products": [
+    {
+      "Id": "product2",
+      "SerialNumber": "SN-000298393-0002",
+      "Name": "table white color",
+      "Description": "table for work",
+      "ProductType": "table",
+      "Manufacturer": "Ikea",
+      "ProductionDate": "2021-07-26T18:48:32.476Z",
+      "Price": 250.0,
+      "Currency": "USD"
+    }
+  ]
+}
