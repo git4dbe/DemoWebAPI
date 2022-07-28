@@ -1,2 +1,2 @@
 # DemoWebAPI
-Demo ECommerce WebAPI
+Demo ECommerce WebAPI - is ready for review
