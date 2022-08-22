@@ -1,0 +1,54 @@
+0) Prerequisites
+	Docker (for Windows) app was already installed.
+	Docker Engine v20.10.6
+
+1) Execute command (if Docker is not starting suscessfully):
+	> bcdedit /set hypervisorlaunchtype auto
+	Restart PC.
+
+2) Build Docker image for given app:
+   From VS2019 Right Mouse Click on Dockerfile "Biuld Docker image"
+   or command:
+	> docker build -f "[Dockerfile Path]" --force-rm -t ecommercedemowebapi  --label "com.microsoft.created-by=visual-studio" --label "com.microsoft.visual-studio.project-name=ECommerceDemoWebAPI" "[Project folder Path]"
+		[Dockerfile Path] - full path to Dockerfile
+		[Project folder Path] - folder full path (where the ECommerceDemoWebAPI.csproj is located)
+
+3) Publish Docker image to DockerHub
+	> docker login
+
+	> docker tag ecommercedemowebapi dmytrobezuglov/ecommercedemowebapi
+
+	> docker push dmytrobezuglov/ecommercedemowebapi
+
+4) Install MiniKube
+   https://minikube.sigs.k8s.io/docs/start/#what-youll-need
+
+   Download and run the installer for the latest release.
+   PowerShell script:
+	New-Item -Path 'c:\' -Name 'minikube' -ItemType Directory -Force
+	Invoke-WebRequest -OutFile 'c:\minikube\minikube.exe' -Uri 'https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe' -UseBasicParsing
+
+
+   Add the minikube.exe binary to your PATH.
+   PowerShell script (as Administrator):
+	$oldPath = [Environment]::GetEnvironmentVariable('Path', [EnvironmentVariableTarget]::Machine)
+	if ($oldPath.Split(';') -inotcontains 'C:\minikube'){ `
+	  [Environment]::SetEnvironmentVariable('Path', $('{0};C:\minikube' -f $oldPath), [EnvironmentVariableTarget]::Machine) `
+	}
+
+5) Start MiniKube
+	> minikube start 
+
+        or (to specify explicitly which driver to use - if there are several f.i Docker and VirtualBox)
+	> minikube start --driver=docker
+
+6) Access new cluster
+	> kubectl get po -A 
+
+7) Deploy .Net Core WebAPI published to DockerHub application to MiniKube:
+	> kubectl create deployment hello-minikube --image=docker.io/dmytrobezuglov/ecommercedemowebapi
+	> kubectl expose deployment hello-minikube --type=NodePort --port=80
+
+8) Check deployed .Net Core WebAPI endpoint:
+	> minikube service hello-minikube
+	(Add to the url in the opened browser "/swagger/index.html")
