@@ -1,7 +1,9 @@
-﻿using ECommerceDemoWebAPI.Contracts;
-using ECommerceDemoWebAPI.DataProviders;
-using ECommerceDemoWebAPI.Entities;
+﻿using ECommerceDemoCommon.Contracts;
+using ECommerceDemoCommon.DataProviders;
+using ECommerceDemoCommon.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +16,18 @@ namespace ECommerceDemoWebAPI.Controllers
     {
         private readonly IDataProvider<Product> _productDataProvider;
 
+        [ActivatorUtilitiesConstructor]
         public ProductController()
         {
-            _productDataProvider = new FileEntityProvider<Product>($"{nameof(Product)}s");
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            string dataProviderServiceUrl = config.GetValue<string>("DataProviderService:Url");
+
+            _productDataProvider = new ClientDataServiceProvider<Product>(dataProviderServiceUrl);
+        }
+
+        public ProductController(IDataProvider<Product> productDataProvider)
+        {
+            _productDataProvider = productDataProvider;
         }
 
         [HttpGet]
@@ -37,7 +48,7 @@ namespace ECommerceDemoWebAPI.Controllers
         [HttpPost]
         public async Task Post([FromBody] Product product)
         {
-            await Task.Run(() => _productDataProvider.Add(product));
+            await Task.Run(() => _productDataProvider.AddAsync(product));
         }
 
         [HttpPut]

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ECommerceDemoWebAPI.Contracts
+namespace ECommerceDemoCommon.Contracts
 {
     public interface IDataProvider<T> where T : IEntity
     {
@@ -8,10 +8,12 @@ namespace ECommerceDemoWebAPI.Contracts
 
         IEnumerable<T> Get();
 
-        void Add(T entity);
+        void AddAsync(T entity);
 
         void Update(T entity);
 
         void Delete(string id);
     }
+
+
 }
