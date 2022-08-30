@@ -1,8 +1,9 @@
-﻿using ECommerceDemoWebAPI.Contracts;
-using ECommerceDemoWebAPI.DataProviders;
-using ECommerceDemoWebAPI.Entities;
+﻿using ECommerceDemoCommon.Contracts;
+using ECommerceDemoCommon.DataProviders;
+using ECommerceDemoCommon.Entities;
 using ECommerceDemoWebAPI.EntityManagers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,10 +17,13 @@ namespace ECommerceDemoWebAPI.Controllers
 
         public OrderController()
         {
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            string dataProviderServiceUrl = config.GetValue<string>("DataProviderService:Url");
+
             _orderManager = new OrderManager(
-                new FileEntityProvider<ShoppingCart>($"{nameof(ShoppingCart)}s"),
-                new FileEntityProvider<Order>($"{nameof(Order)}s"),
-                new FileEntityProvider<Product>($"{nameof(Product)}s"));
+                new ClientDataServiceProvider<ShoppingCart>(dataProviderServiceUrl),
+                new ClientDataServiceProvider<Order>(dataProviderServiceUrl),
+                new ClientDataServiceProvider<Product>(dataProviderServiceUrl));
         }
 
         [HttpGet]

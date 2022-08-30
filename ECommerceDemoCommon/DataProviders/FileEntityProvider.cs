@@ -1,11 +1,12 @@
-﻿using ECommerceDemoWebAPI.Contracts;
+﻿using ECommerceDemoCommon.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ECommerceDemoWebAPI.DataProviders
+namespace ECommerceDemoCommon.DataProviders
 {
+    [Obsolete]
     public class FileEntityProvider<T> : IDataProvider<T> where T : IEntity
     {
         private readonly string _dataPath;
@@ -19,7 +20,7 @@ namespace ECommerceDemoWebAPI.DataProviders
             }
         }
 
-        public void Add(T entity)
+        public void AddAsync(T entity)
         {
             if (Get(entity.Id) != null)
             {

@@ -1,0 +1,4 @@
+Data Provider functionality originally implemented in FileEntityProvider.cs 
+has been exposed as Web API endpoint (micro-)service in new project ECommerceDataProvider.csproj
+
+The ClientDataServiceProvider.cs (CRUDing data by requests to Data WebAPi service) is using instead of the FileEntityProvider.cs.

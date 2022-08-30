@@ -1,7 +1,7 @@
-﻿using ECommerceDemoWebAPI.Contracts;
+﻿using ECommerceDemoCommon.Contracts;
 using System;
 
-namespace ECommerceDemoWebAPI.Entities
+namespace ECommerceDemoCommon.Entities
 {
     public class Order : IEntity
     {
