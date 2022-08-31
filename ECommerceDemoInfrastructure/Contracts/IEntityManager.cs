@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ECommerceDemoCommon.Contracts
+namespace ECommerceDemoInfrastructure.Contracts
 {
     public interface IEntityManager<T> where T : IEntity
     {

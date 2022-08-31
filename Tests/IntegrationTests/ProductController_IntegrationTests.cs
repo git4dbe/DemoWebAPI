@@ -1,5 +1,5 @@
 ﻿using ECommerceDemoWebAPI.Controllers;
-using ECommerceDemoCommon.Entities;
+using ECommerceDemoInfrastructure.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;

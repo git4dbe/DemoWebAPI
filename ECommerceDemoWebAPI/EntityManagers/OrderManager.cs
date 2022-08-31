@@ -1,5 +1,5 @@
-﻿using ECommerceDemoCommon.Contracts;
-using ECommerceDemoCommon.Entities;
+﻿using ECommerceDemoInfrastructure.Contracts;
+using ECommerceDemoInfrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +46,7 @@ namespace ECommerceDemoWebAPI.EntityManagers
 
             newOrder.ShoppingCart = await Task.Run(() => _shoppingCartDataProvider.Get(entity.ShoppingCart.Id));
             await Task.Run(() => _shoppingCartDataProvider.Delete(entity.ShoppingCart.Id));
-            await Task.Run(() => _orderDataProvider.AddAsync(newOrder));
+            await Task.Run(() => _orderDataProvider.Add(newOrder));
         }
 
         public async Task DeleteAsync(string id)
@@ -54,7 +54,7 @@ namespace ECommerceDemoWebAPI.EntityManagers
             Order order = await GetAsync(id);
 
             List<Task> restoreProductsTasks = order.ShoppingCart.Products
-                                                        .Select(p => Task.Run(() => _productDataProvider.AddAsync(p)))
+                                                        .Select(p => Task.Run(() => _productDataProvider.Add(p)))
                                                         .ToList();
 
             await Task.WhenAll(restoreProductsTasks);

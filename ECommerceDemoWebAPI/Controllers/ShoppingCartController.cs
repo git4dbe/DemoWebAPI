@@ -1,6 +1,6 @@
-﻿using ECommerceDemoCommon.Contracts;
-using ECommerceDemoCommon.DataProviders;
-using ECommerceDemoCommon.Entities;
+﻿using ECommerceDemoInfrastructure.Contracts;
+using ECommerceDemoInfrastructure.DataProviders;
+using ECommerceDemoInfrastructure.Entities;
 using ECommerceDemoWebAPI.EntityManagers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

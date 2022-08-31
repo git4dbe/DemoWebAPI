@@ -1,6 +1,6 @@
-﻿using ECommerceDemoCommon.Contracts;
-using ECommerceDemoCommon.DataProviders;
-using ECommerceDemoCommon.Entities;
+﻿using ECommerceDemoInfrastructure.Contracts;
+using ECommerceDemoInfrastructure.DataProviders;
+using ECommerceDemoInfrastructure.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,7 +48,7 @@ namespace ECommerceDemoWebAPI.Controllers
         [HttpPost]
         public async Task Post([FromBody] Product product)
         {
-            await Task.Run(() => _productDataProvider.AddAsync(product));
+            await Task.Run(() => _productDataProvider.Add(product));
         }
 
         [HttpPut]

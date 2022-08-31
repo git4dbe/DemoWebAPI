@@ -1,5 +1,5 @@
 ﻿
-namespace ECommerceDemoCommon.Contracts
+namespace ECommerceDemoInfrastructure.Contracts
 {
     public interface IEntity
     {

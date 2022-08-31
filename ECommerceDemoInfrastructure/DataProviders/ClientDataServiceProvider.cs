@@ -1,11 +1,13 @@
-﻿using ECommerceDemoCommon.Contracts;
+﻿using ECommerceDemoInfrastructure.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 
-namespace ECommerceDemoCommon.DataProviders
+namespace ECommerceDemoInfrastructure.DataProviders
 {
     public class ClientDataServiceProvider<T> : IDataProvider<T> where T : IEntity
     {
@@ -18,12 +20,15 @@ namespace ECommerceDemoCommon.DataProviders
             _dataServiceClient = new HttpClient();
         }
 
-        public void AddAsync(T entity)
+        public void Add(T entity)
         {
             //http://localhost:13560/api/DataProvider?entityType=Product&id=product11
             string url = GetEntityUrl(typeof(T).Name, entity.Id);
+
+            var content = new StringContent(JsonConvert.SerializeObject(entity, Formatting.Indented), Encoding.UTF8);
+
+            var result = _dataServiceClient.PostAsync(url, content).Result;
             
-            var result = _dataServiceClient.PostAsJsonAsync(url, entity).Result;
 
             if (!result.IsSuccessStatusCode)
             {
@@ -81,7 +86,9 @@ namespace ECommerceDemoCommon.DataProviders
         {
             string url = GetEntityUrl(typeof(T).Name, entity.Id);
 
-            var result = _dataServiceClient.PutAsJsonAsync(url, entity).Result;
+            var content = new StringContent(JsonConvert.SerializeObject(entity, Formatting.Indented), Encoding.UTF8);
+
+            var result = _dataServiceClient.PutAsync(url, content).Result;
 
             if (!result.IsSuccessStatusCode)
             {

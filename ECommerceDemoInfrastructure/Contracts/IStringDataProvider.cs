@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ECommerceDemoCommon.Contracts
+namespace ECommerceDemoInfrastructure.Contracts
 {
     public interface IStringDataProvider
     {

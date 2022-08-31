@@ -1,8 +1,8 @@
-﻿using ECommerceDemoCommon.Contracts;
+﻿using ECommerceDemoInfrastructure.Contracts;
 using System;
 using System.Collections.Generic;
 
-namespace ECommerceDemoCommon.Entities
+namespace ECommerceDemoInfrastructure.Entities
 {
     public class ShoppingCart : IEntity
     {

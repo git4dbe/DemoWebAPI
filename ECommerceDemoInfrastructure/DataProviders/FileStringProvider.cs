@@ -1,9 +1,9 @@
-﻿using ECommerceDemoCommon.Contracts;
+﻿using ECommerceDemoInfrastructure.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ECommerceDemoCommon.DataProviders
+namespace ECommerceDemoInfrastructure.DataProviders
 {
     public class FileStringProvider : IStringDataProvider
     {

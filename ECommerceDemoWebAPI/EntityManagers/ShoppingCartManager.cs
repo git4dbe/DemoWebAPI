@@ -1,5 +1,5 @@
-﻿using ECommerceDemoCommon.Contracts;
-using ECommerceDemoCommon.Entities;
+﻿using ECommerceDemoInfrastructure.Contracts;
+using ECommerceDemoInfrastructure.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +41,7 @@ namespace ECommerceDemoWebAPI.EntityManagers
             }
 
             await UpdateProducts(newShoppingCart, entity.Products.Select(p => p.Id).ToList());
-            await Task.Run(() => _shoppingCartDataProvider.AddAsync(newShoppingCart));
+            await Task.Run(() => _shoppingCartDataProvider.Add(newShoppingCart));
         }
 
         public async Task DeleteAsync(string id)
@@ -115,7 +115,7 @@ namespace ECommerceDemoWebAPI.EntityManagers
         private async Task RestoreProducts(ShoppingCart shoppingCart)
         {
             List<Task> restoreProductsTasks = shoppingCart.Products
-                                                        .Select(p => Task.Run(() => _productDataProvider.AddAsync(p)))
+                                                        .Select(p => Task.Run(() => _productDataProvider.Add(p)))
                                                         .ToList();
 
             await Task.WhenAll(restoreProductsTasks);

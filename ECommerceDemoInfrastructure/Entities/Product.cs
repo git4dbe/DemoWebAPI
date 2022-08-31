@@ -1,7 +1,7 @@
-﻿using ECommerceDemoCommon.Contracts;
+﻿using ECommerceDemoInfrastructure.Contracts;
 using System;
 
-namespace ECommerceDemoCommon.Entities
+namespace ECommerceDemoInfrastructure.Entities
 {
     public class Product : IEntity
     {

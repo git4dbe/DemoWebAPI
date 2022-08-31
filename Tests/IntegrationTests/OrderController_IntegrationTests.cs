@@ -1,4 +1,4 @@
-﻿using ECommerceDemoCommon.Entities;
+﻿using ECommerceDemoInfrastructure.Entities;
 using ECommerceDemoWebAPI.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
