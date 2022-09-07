@@ -1,0 +1,3 @@
+Use CircuitBreaker pattern for requests to data provider WebApi service;
+Use obsolete monolyth client as a backup client when microservice fails.
+Make retry requests in the case of failure.

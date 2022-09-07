@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CircuitBreaker\CircuitBreaker.csproj" />
     <ProjectReference Include="..\ECommerceDemoWebAPI\ECommerceDemoWebAPI.csproj" />
   </ItemGroup>
 
