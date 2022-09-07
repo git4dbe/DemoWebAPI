@@ -74,7 +74,7 @@ namespace ECommerceDemoInfrastructure.DataProviders
             for (int i = 1; i <= _retryNumber; i++)
             {
                 for (int j = 0; j < clientActions.Count; j++)
-                    {
+                {
                     try
                     {
                         clientActions[j]();
@@ -89,7 +89,7 @@ namespace ECommerceDemoInfrastructure.DataProviders
                 Task.Delay(_delayPeriodInMicroSeconds).Wait();
             }
 
-            throw new Exception($"Execution of {actionName} is failed for {_retryNumber} retry attempts");
+            throw new Exception($"Execution of {actionName} is failed for {_retryNumber} retry attempts on {clientActions.Count} clients");
         }
 
 
@@ -112,7 +112,7 @@ namespace ECommerceDemoInfrastructure.DataProviders
                 Task.Delay(_delayPeriodInMicroSeconds).Wait();
             }
 
-            throw new Exception($"Execution of {funcName} is failed for {_retryNumber} retry attempts");
+            throw new Exception($"Execution of {funcName} is failed for {_retryNumber} retry attempts on {clientFuncs.Count} clients");
         }
     }
 }
