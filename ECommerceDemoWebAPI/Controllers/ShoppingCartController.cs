@@ -1,6 +1,7 @@
 ﻿using ECommerceDemoInfrastructure.Contracts;
 using ECommerceDemoInfrastructure.DataProviders;
 using ECommerceDemoInfrastructure.Entities;
+using ECommerceDemoInfrastructure.Factories;
 using ECommerceDemoWebAPI.EntityManagers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -21,8 +22,8 @@ namespace ECommerceDemoWebAPI.Controllers
             string dataProviderServiceUrl = config.GetValue<string>("DataProviderService:Url");
 
             _shoppingCartManager = new ShoppingCartManager(
-                new ClientDataServiceProvider<ShoppingCart>(dataProviderServiceUrl),
-                new ClientDataServiceProvider<Product>(dataProviderServiceUrl));
+                    DataProviderFactory<ShoppingCart>.CreateIntegratedDataProvider(dataProviderServiceUrl),
+                    DataProviderFactory<Product>.CreateIntegratedDataProvider(dataProviderServiceUrl));
         }
 
 

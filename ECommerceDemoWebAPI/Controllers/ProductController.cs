@@ -1,6 +1,7 @@
 ﻿using ECommerceDemoInfrastructure.Contracts;
 using ECommerceDemoInfrastructure.DataProviders;
 using ECommerceDemoInfrastructure.Entities;
+using ECommerceDemoInfrastructure.Factories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,7 @@ namespace ECommerceDemoWebAPI.Controllers
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             string dataProviderServiceUrl = config.GetValue<string>("DataProviderService:Url");
 
-            _productDataProvider = new ClientDataServiceProvider<Product>(dataProviderServiceUrl);
+            _productDataProvider = DataProviderFactory<Product>.CreateIntegratedDataProvider(dataProviderServiceUrl);
         }
 
         public ProductController(IDataProvider<Product> productDataProvider)

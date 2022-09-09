@@ -22,7 +22,7 @@ namespace ECommerceDemoInfrastructure.DataProviders
 
         public void Add(T entity)
         {
-            if (Get(entity.Id) != null)
+            if (File.Exists(GetFilePath(entity.Id)))
             {
                 throw new ArgumentException($"{typeof(T).Name} with id='{entity.Id}' already exists");
             }
@@ -32,7 +32,7 @@ namespace ECommerceDemoInfrastructure.DataProviders
 
         public void Update(T entity)
         {
-            if (Get(entity.Id) == null)
+            if (!File.Exists(GetFilePath(entity.Id)))
             {
                 throw new ArgumentException($"{typeof(T).Name} with id='{entity.Id}' does not exist");
             }
