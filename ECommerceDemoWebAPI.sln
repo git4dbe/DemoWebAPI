@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerceDemoInfrastructure
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerceDataProvider", "ECommerceDataProvider\ECommerceDataProvider.csproj", "{A5A91EE2-546F-4B5F-9629-2F2B763B6073}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircuitBreaker", "CircuitBreaker\CircuitBreaker.csproj", "{74C11D35-E862-4676-855F-33ED976A1364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CircuitBreaker", "CircuitBreaker\CircuitBreaker.csproj", "{74C11D35-E862-4676-855F-33ED976A1364}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECommerceGatewayDiscoveryService", "ECommerceGatewayDiscoveryService\ECommerceGatewayDiscoveryService.csproj", "{3FAE8006-350C-47D9-883A-416DDFC467AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{74C11D35-E862-4676-855F-33ED976A1364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74C11D35-E862-4676-855F-33ED976A1364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74C11D35-E862-4676-855F-33ED976A1364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FAE8006-350C-47D9-883A-416DDFC467AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FAE8006-350C-47D9-883A-416DDFC467AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FAE8006-350C-47D9-883A-416DDFC467AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FAE8006-350C-47D9-883A-416DDFC467AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

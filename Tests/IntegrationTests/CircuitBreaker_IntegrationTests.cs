@@ -1,11 +1,12 @@
 ﻿using CircuitBreaker.Concrete;
 using ECommerceDemoInfrastructure.DataProviders;
 using ECommerceDemoInfrastructure.Entities;
-using Microsoft.Extensions.Configuration;
+using ECommerceDemoInfrastructure.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Tests.IntegrationTests
@@ -18,7 +19,8 @@ namespace Tests.IntegrationTests
         {
             var breaker = new CircuitBreakerFunc<IEnumerable<Product>>(new CircuitBreakerState(1000));
 
-            var client = new ClientDataServiceProvider<Product>(GetDataServiceUrl());
+            var httpClient = new HttpClient();
+            var client = new ClientDataServiceProvider<Product>(httpClient, GetDataServiceUrl(httpClient));
 
             IEnumerable<Product> result = breaker.ExecuteFunc(() => client.Get());
 
@@ -30,27 +32,30 @@ namespace Tests.IntegrationTests
         public void CircuitBreakerOpen_IsOK()
         {
             var breaker = new CircuitBreakerFunc<IEnumerable<Product>>(new CircuitBreakerState(5000));
+            var httpClient = new HttpClient();
 
-            Exception dummyUrlException = GetBreakerException(breaker, "http://localhost:13560/DummyAPI");
+            Exception dummyUrlException = GetBreakerException(httpClient, breaker, "http://localhost:13560/DummyAPI");
             Assert.IsNotNull(dummyUrlException, "It is expected that request with invalid url will cause exception");
             Assert.IsTrue(breaker.BreakerState.IsOpen);
 
             Task.Delay(2000).Wait();
+            
+            string dataServiceUrl = GetDataServiceUrl(httpClient);
 
-            Exception openWaitTimeException = GetBreakerException(breaker, GetDataServiceUrl());
+            Exception openWaitTimeException = GetBreakerException(httpClient, breaker, dataServiceUrl);
             Assert.IsNotNull(openWaitTimeException, "It is expected that in active open time period the request will be rejected");
             Assert.IsTrue(breaker.BreakerState.IsOpen);
 
             Task.Delay(4000).Wait();
-            Exception thereIsNoException = GetBreakerException(breaker, GetDataServiceUrl());
+            Exception thereIsNoException = GetBreakerException(httpClient, breaker, dataServiceUrl);
             Assert.IsTrue(breaker.BreakerState.IsClosed, "It is expected that after open time period the correct url request should be Ok");
             Assert.IsNull(thereIsNoException);
         }
 
-        private Exception GetBreakerException(CircuitBreakerFunc<IEnumerable<Product>> breaker, string url)
+        private Exception GetBreakerException(HttpClient httpClient, CircuitBreakerFunc<IEnumerable<Product>> breaker, string url)
         {
             IEnumerable<Product> result = null;
-            var client = new ClientDataServiceProvider<Product>(url);
+            var client = new ClientDataServiceProvider<Product>(httpClient, url);
 
             try
             {
@@ -64,10 +69,9 @@ namespace Tests.IntegrationTests
             return null;
         }
 
-        private string GetDataServiceUrl()
+        private string GetDataServiceUrl(HttpClient httpClient)
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            return config.GetValue<string>("DataProviderService:Url");
+            return GatewayDiscoveryHelper.GetServiceUrls(httpClient).FirstOrDefault();
         }
     }
 }
