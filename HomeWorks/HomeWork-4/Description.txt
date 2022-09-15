@@ -1,2 +1,2 @@
-Add ECommerceGatewayDiscoveryService.csproj WebAPi enpoint which serves as a Gateway Discovery Service.
+Add ECommerceGatewayDiscoveryService.csproj WebAPi endpoint which serves as a Gateway Discovery Service.
 Stores and returns Urls by service names.

@@ -23,7 +23,7 @@ namespace ECommerceDemoInfrastructure.DataProviders
 
             if (!result.IsSuccessStatusCode)
             {
-                _logger.Error($"Discovery Service '{discoveryUrl}' failed with status code - {result.StatusCode}");
+                _logger?.Error($"Discovery Service '{discoveryUrl}' failed with status code - {result.StatusCode}");
                 return Array.Empty<string>();
             }
 
