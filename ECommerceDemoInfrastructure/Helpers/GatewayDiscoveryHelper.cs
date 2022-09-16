@@ -7,18 +7,18 @@ namespace ECommerceDemoInfrastructure.Helpers
     public class GatewayDiscoveryHelper
     {
         private static readonly string _dataProviderService = "DataProviderService";
+        private static string _gatewayDiscoveryServiceUrl;
 
         public static string[] GetServiceUrls(HttpClient httpClient)
         {
             var clientDiscoveryService = new ClientGatewayDiscoveryService(httpClient);
-            return clientDiscoveryService.GetServiceUrls(GetGatewayDiscoveryServiceUrl());
+            return clientDiscoveryService.GetServiceUrls(GetGatewayDiscoveryServiceUrl(_dataProviderService));
         }
 
 
         public static string GetGatewayDiscoveryServiceUrl(string serviceName)
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            string discoveryService = config.GetValue<string>("GatewayDiscoveryService:Url");
+            string discoveryService = GetGatewayDiscoveryServiceUrl();
 
             if (!string.IsNullOrEmpty(serviceName))
             {
@@ -31,8 +31,20 @@ namespace ECommerceDemoInfrastructure.Helpers
 
         public static string GetGatewayDiscoveryServiceUrl()
         {
-            return GetGatewayDiscoveryServiceUrl(_dataProviderService);
+            if (string.IsNullOrEmpty(_gatewayDiscoveryServiceUrl)) _gatewayDiscoveryServiceUrl = GetDefaultGatewayDiscoveryServiceUrl();
+
+            return _gatewayDiscoveryServiceUrl;
         }
 
+        public static void SetGatewayDiscoveryServiceUrl(string serviceUrl)
+        {
+            _gatewayDiscoveryServiceUrl = serviceUrl;
+        }
+
+        private static string GetDefaultGatewayDiscoveryServiceUrl()
+        {
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
+            return config.GetValue<string>("GatewayDiscoveryService:Url");
+        }
     }
 }
