@@ -1,27 +1,36 @@
 ﻿using ECommerceDemoInfrastructure.Contracts;
 using ECommerceDemoInfrastructure.DataProviders;
+using ECommerceDemoInfrastructure.Helpers;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace ECommerceDemoInfrastructure.Factories
 {
     public class DataProviderFactory<T> where T : IEntity
     {
-        public static IDataProvider<T> CreateIntegratedDataProvider(string dataServiceUrl)
+
+        public static IDataProvider<T> CreateIntegratedDataProvider(HttpClient httpClient)
         {
-            var clientDataServiceProvider = new ClientDataServiceProvider<T>(dataServiceUrl);
+            string[] serviceUrls = GatewayDiscoveryHelper.GetServiceUrls(httpClient);
+            List<IDataProvider<T>> serviceClientsList = new List<IDataProvider<T>>();
 
-            var clientDataServiceCircuitBreakable = new ClientDataServiceCircuitBreakable<T>(clientDataServiceProvider, openToHalfOpenWaitTime: 100);
+            foreach (string url in serviceUrls)
+            {
+                var clientDataServiceProvider = new ClientDataServiceProvider<T>(httpClient, url);
+                var clientDataServiceCircuitBreakable = new ClientDataServiceCircuitBreakable<T>(clientDataServiceProvider, openToHalfOpenWaitTime: 100);
+                serviceClientsList.Add(clientDataServiceCircuitBreakable);
+            }
 
-            var fileEntityProvider = new FileEntityProvider<T>($"{typeof(T).Name}s");
+            serviceClientsList.Add(new FileEntityProvider<T>($"{typeof(T).Name}s")); //// is obsolete - used as a backup monolyth client
+
 
             var integratedDataProvider = new IntegratedDataServiceProvider<T>(
-                                            clients: new IDataProvider<T>[] {
-                                                            clientDataServiceCircuitBreakable,
-                                                            fileEntityProvider // is obsolete - used as a backup monolyth client
-                                            },
+                                            clients: serviceClientsList.ToArray(),
                                             retryNumber: 3,
                                             delayPeriodInMicroSeconds: 100);
 
             return integratedDataProvider;
         }
+
     }
 }

@@ -13,10 +13,10 @@ namespace ECommerceDemoInfrastructure.DataProviders
         private readonly string _dataServiceUrl;
         private readonly HttpClient _dataServiceClient;
 
-        public ClientDataServiceProvider(string dataServiceUrl)
+        public ClientDataServiceProvider(HttpClient httpClient, string dataServiceUrl)
         {
             _dataServiceUrl = dataServiceUrl;
-            _dataServiceClient = new HttpClient();
+            _dataServiceClient = httpClient;
         }
 
         public void Add(T entity)

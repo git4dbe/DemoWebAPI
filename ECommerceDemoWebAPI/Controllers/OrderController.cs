@@ -1,11 +1,10 @@
 ﻿using ECommerceDemoInfrastructure.Contracts;
-using ECommerceDemoInfrastructure.DataProviders;
 using ECommerceDemoInfrastructure.Entities;
 using ECommerceDemoInfrastructure.Factories;
 using ECommerceDemoWebAPI.EntityManagers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ECommerceDemoWebAPI.Controllers
@@ -18,13 +17,12 @@ namespace ECommerceDemoWebAPI.Controllers
 
         public OrderController()
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            string dataProviderServiceUrl = config.GetValue<string>("DataProviderService:Url");
+            var httpClient = new HttpClient(); //TODO use IHttpClientFactory for httpClient creation
 
             _orderManager = new OrderManager(
-                DataProviderFactory<ShoppingCart>.CreateIntegratedDataProvider(dataProviderServiceUrl),
-                DataProviderFactory<Order>.CreateIntegratedDataProvider(dataProviderServiceUrl),
-                DataProviderFactory<Product>.CreateIntegratedDataProvider(dataProviderServiceUrl));
+                DataProviderFactory<ShoppingCart>.CreateIntegratedDataProvider(httpClient),
+                DataProviderFactory<Order>.CreateIntegratedDataProvider(httpClient),
+                DataProviderFactory<Product>.CreateIntegratedDataProvider(httpClient));
         }
 
         [HttpGet]

@@ -1,12 +1,11 @@
 ﻿using ECommerceDemoInfrastructure.Contracts;
-using ECommerceDemoInfrastructure.DataProviders;
 using ECommerceDemoInfrastructure.Entities;
 using ECommerceDemoInfrastructure.Factories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace ECommerceDemoWebAPI.Controllers
@@ -20,10 +19,8 @@ namespace ECommerceDemoWebAPI.Controllers
         [ActivatorUtilitiesConstructor]
         public ProductController()
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            string dataProviderServiceUrl = config.GetValue<string>("DataProviderService:Url");
-
-            _productDataProvider = DataProviderFactory<Product>.CreateIntegratedDataProvider(dataProviderServiceUrl);
+            var httpClient = new HttpClient(); //TODO use IHttpClientFactory for httpClient creation
+            _productDataProvider = DataProviderFactory<Product>.CreateIntegratedDataProvider(httpClient);
         }
 
         public ProductController(IDataProvider<Product> productDataProvider)

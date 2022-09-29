@@ -56,6 +56,11 @@ namespace ECommerceDemoInfrastructure.DataProviders
             }
         }
 
+        public bool IsNew(string id)
+        {
+            return !File.Exists(GetFilePath(id));
+        }
+
         public void Update(string id, string entity)
         {
             string filePath = GetFilePath(id);

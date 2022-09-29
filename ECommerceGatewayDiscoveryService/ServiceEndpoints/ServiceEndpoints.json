@@ -1,0 +1,6 @@
+[
+  {
+    "ServiceName": "DataProviderService",
+    "ServiceUrl": "http://localhost:13560/api/DataProvider"
+  }
+]

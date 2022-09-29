@@ -13,5 +13,7 @@ namespace ECommerceDemoInfrastructure.Contracts
         void Update(string id, string entity);
 
         void Delete(string id);
+
+        bool IsNew(string id);
     }
 }
