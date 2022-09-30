@@ -1,0 +1,64 @@
+Use Prometeus and Graphana.
+
+Changes based on articles:
+https://blog.marcnuri.com/prometheus-grafana-setup-minikube
+https://medium.com/@niteshsinghal85/track-api-usage-with-prometheus-and-grafana-in-asp-net-core-cfdf03346b4
+
+For WebAPIs projs added package "prometheus-net.AspNetCore"
+C# commands:
+	app.UseHttpMetrics();
+        app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapMetrics();
+            });
+
+
+Installation steps:
+
+0) Prerequisites
+	Install Helm
+	https://helm.sh/
+
+1) Install Prometheus
+
+	/*adding the repository to our helm configuration*/
+	>helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+	/*installs the charts*/
+	>helm install prometheus prometheus-community/prometheus    
+
+	/*expose the prometheus-server Service using a NodePort*/
+	>kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-np  
+
+	/*access the Prometheus web interface when the Pod is ready:
+	>minikube service prometheus-server-np
+
+2) Install Grafana
+	/*adding the repository to our helm configuration*/
+	>helm repo add grafana https://grafana.github.io/helm-charts
+
+	/*install Grafana by using the provided charts*/
+	>helm install grafana grafana/grafana
+
+	/*expose Grafana’s Web interface service as a NodePort.
+	>kubectl expose service grafana --type=NodePort --target-port=3000 --name=grafana-np
+
+	/*Note: Grafana is password protected by default, in order to retrieve the admin user password we can run the following command:
+	(pwd is base64 encoded - it should be decoded f.i. JS atob() or online sites)*/
+	>kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}"
+
+	/*load the Grafana web interface using the admin user and the password retrieved:*/
+	>minikube service grafana-np
+
+
+3) Configure Prometheus Datasource
+	Configuration > Datasources and add a new Prometheus instance.
+
+	Name: Prometheus
+	Url: http://prometheus-server:80
+
+
+4) Kubernetes Dashboard bootstrap
+
+	We head to Create (+) > Import section to Import via grafana.com and we set 6417 into the id field and click Load.
+	In the dashboard configuration we need to select the Prometheus Datasource we created in the earlier step.
