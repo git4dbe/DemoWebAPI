@@ -14,4 +14,9 @@ namespace ECommerceDemoInfrastructure.Entities
 
         public List<Product> Products { get; set; }
     }
+
+    public class Foo
+    {
+        public string Id { get; set; }
+    }
 }
